@@ -9,8 +9,12 @@ button.addEventListener('click', () => {
 
 	arrayNotes.push(text); // добавляем значение в массив заметок
 
-	let localNotes = JSON.stringify(arrayNotes);  // собираем многострочные заметки
-	localStorage.setItem('myNotes', localNotes);  // установка ключа хранилища с массивом значений
+	let localNotes = JSON.stringify(arrayNotes); // собираем многострочные заметки
+	if (localStorage.getItem('myNotes')) {
+		localStorage.setItem('myNotes', localNotes);
+	} else {
+		localStorage.setItem('myNotes', localNotes); // установка ключа хранилища с массивом значений
+	}
 
 	console.log(JSON.parse(localStorage.getItem('myNotes')));
 
@@ -21,11 +25,11 @@ button.addEventListener('click', () => {
 });
 
 function render(parentNode, data) {
-	for(let i = 0; i < data.length; i++) {
+	for (let i = 0; i < data.length; i++) {
 		let item = data[i];
 
 		const node = document.createElement('div'); // создаем div где лежит одна заметка
-		node.classList.add('notes__added');  // добавляем класс для стилизации
+		node.classList.add('notes__added'); // добавляем класс для стилизации
 		node.textContent = item;
 
 		const delBtn = document.createElement('button');
