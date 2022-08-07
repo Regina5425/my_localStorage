@@ -1,22 +1,32 @@
 const button = document.querySelector('button');
 const notes = document.querySelector('.notes');
 const textarea = document.querySelector('textarea');
+const label = document.querySelector('label');
 
 let arrayNotes = [];
 
 button.addEventListener('click', () => {
 	let text = textarea.value; // находим значение в textarea
 
-	arrayNotes.push(text); // добавляем значение в массив заметок
+	if(textarea.validity.valueMissing) {
+		let error = document.createElement('div');
+		error.classList.add('error');
+		error.innerHTML = `Поле не заполнено`;
+		label.append(error);
 
-	let localNotes = JSON.stringify(arrayNotes); // собираем многострочные заметки
-	if (localStorage.getItem('myNotes')) {
-		localStorage.setItem('myNotes', localNotes);
-	} else {
-		localStorage.setItem('myNotes', localNotes); // установка ключа хранилища с массивом значений
+		textarea.addEventListener('change', () => {
+			error.remove();
+		});
 	}
 
-	console.log(JSON.parse(localStorage.getItem('myNotes')));
+	if(text !== '') {
+		arrayNotes.push(text); // добавление значений в массив заметок
+	}
+
+	let localNotes = JSON.stringify(arrayNotes); // собираем заметки (строка)
+	localStorage.setItem('myNotes', localNotes); // установка ключа хранилища с массивом значений в виде строк
+
+	// console.log(JSON.parse(localStorage.getItem('myNotes'))); // это массив
 
 	textarea.value = '';
 	notes.innerHTML = '';
@@ -28,8 +38,8 @@ function render(parentNode, data) {
 	for (let i = 0; i < data.length; i++) {
 		let item = data[i];
 
-		const node = document.createElement('div'); // создаем div где лежит одна заметка
-		node.classList.add('notes__added'); // добавляем класс для стилизации
+		const node = document.createElement('div');
+		node.classList.add('notes__added');
 		node.textContent = item;
 
 		const delBtn = document.createElement('button');
