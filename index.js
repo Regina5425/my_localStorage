@@ -5,8 +5,20 @@ const label = document.querySelector('label');
 
 let arrayNotes = [];
 
+document.addEventListener('DOMContentLoaded', () => {
+	if(localStorage.getItem('myNotes') !== null) {
+		let previousData = JSON.parse(localStorage.getItem('myNotes')); // сохраненные данные в виде строки получаю в массив
+
+		for(let i = 0; i < previousData.length; i++) {
+			arrayNotes.push(previousData[i]); // добавляю в новый массив старые данные
+		}
+	}
+
+	render(notes, arrayNotes); // запускаю функцию рендеринга старых заметок
+});
+
 button.addEventListener('click', () => {
-	let text = textarea.value; // находим значение в textarea
+	let text = textarea.value; // нахожу значение в textarea
 
 	if(textarea.validity.valueMissing) {
 		let error = document.createElement('div');
