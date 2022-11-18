@@ -7,18 +7,18 @@ let arrayNotes = [];
 
 document.addEventListener('DOMContentLoaded', () => {
 	if(localStorage.getItem('myNotes') !== null) {
-		let previousData = JSON.parse(localStorage.getItem('myNotes')); // сохраненные данные в виде строки получаю в массив
+		let previousData = JSON.parse(localStorage.getItem('myNotes'));
 
 		for(let i = 0; i < previousData.length; i++) {
-			arrayNotes.push(previousData[i]); // добавляю в новый массив старые данные
+			arrayNotes.push(previousData[i]);
 		}
 	}
 
-	render(notes, arrayNotes); // запускаю функцию рендеринга старых заметок
+	render(notes, arrayNotes);
 });
 
 button.addEventListener('click', () => {
-	let text = textarea.value; // нахожу значение в textarea
+	let text = textarea.value;
 
 	if(textarea.validity.valueMissing) {
 		let error = document.createElement('div');
@@ -32,13 +32,11 @@ button.addEventListener('click', () => {
 	}
 
 	if(text !== '') {
-		arrayNotes.push(text); // добавление значений в массив заметок
+		arrayNotes.push(text);
 	}
 
-	let localNotes = JSON.stringify(arrayNotes); // собираем заметки (строка)
-	localStorage.setItem('myNotes', localNotes); // установка ключа хранилища с массивом значений в виде строк
-
-	// console.log(JSON.parse(localStorage.getItem('myNotes'))); // это массив
+	let localNotes = JSON.stringify(arrayNotes);
+	localStorage.setItem('myNotes', localNotes);
 
 	textarea.value = '';
 	notes.innerHTML = '';
